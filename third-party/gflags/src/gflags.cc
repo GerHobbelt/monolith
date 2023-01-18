@@ -1900,9 +1900,9 @@ bool RegisterFlagValidator(const string* flag,
 //    the parsing of the flags and the printing of any help output.
 // --------------------------------------------------------------------
 
-static uint32 ParseCommandLineFlagsInternal(int* argc, char*** argv,
+static uint32 ParseCommandLineFlagsInternal(int* argc, const char*** argv,
                                             bool remove_flags, bool do_report) {
-  SetArgv(*argc, const_cast<const char**>(*argv));    // save it for later
+  SetArgv(*argc, *argv);    // save it for later
 
   FlagRegistry* const registry = FlagRegistry::GlobalRegistry();
   CommandLineFlagParser parser(registry);
@@ -1933,11 +1933,11 @@ static uint32 ParseCommandLineFlagsInternal(int* argc, char*** argv,
   return r;
 }
 
-uint32 ParseCommandLineFlags(int* argc, char*** argv, bool remove_flags) {
+uint32 ParseCommandLineFlags(int* argc, const char*** argv, bool remove_flags) {
   return ParseCommandLineFlagsInternal(argc, argv, remove_flags, true);
 }
 
-uint32 ParseCommandLineNonHelpFlags(int* argc, char*** argv,
+uint32 ParseCommandLineNonHelpFlags(int* argc, const char*** argv,
                                     bool remove_flags) {
   return ParseCommandLineFlagsInternal(argc, argv, remove_flags, false);
 }
